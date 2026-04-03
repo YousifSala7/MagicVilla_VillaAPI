@@ -39,8 +39,8 @@ namespace MagicVilla_VillaAPI.Repository
             LocalUser user = new()
             {
                 UserName = registrationRequestDTO.UserName,
-                Password = registrationRequestDTO.Password,
-                Name = registrationRequestDTO.Name,
+				Password = BCrypt.Net.BCrypt.HashPassword(registrationRequestDTO.Password),
+				Name = registrationRequestDTO.Name,
                 Role = registrationRequestDTO.Role
             };
 
@@ -53,9 +53,9 @@ namespace MagicVilla_VillaAPI.Repository
 
         public async Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO)
         {
-            var user = await dbSet.FirstOrDefaultAsync(u => u.UserName == loginRequestDTO.UserName && u.Password == loginRequestDTO.Password);
+            var user = await dbSet.FirstOrDefaultAsync(u => u.UserName == loginRequestDTO.UserName);
 
-            if (user == null)
+            if (user == null || !BCrypt.Net.BCrypt.Verify(loginRequestDTO.Password, user.Password))
             {
                 return new LoginResponseDTO()
                 {
