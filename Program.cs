@@ -1,6 +1,7 @@
 
 using Asp.Versioning;
 using MagicVilla_VillaAPI.Data;
+using MagicVilla_VillaAPI.Mapping;
 using MagicVilla_VillaAPI.Middlewares;
 using MagicVilla_VillaAPI.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
