@@ -1,6 +1,7 @@
 
 using Asp.Versioning;
 using MagicVilla_VillaAPI.Data;
+using MagicVilla_VillaAPI.Middlewares;
 using MagicVilla_VillaAPI.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -68,6 +69,7 @@ namespace MagicVilla_VillaAPI
             builder.Services.AddAutoMapper(cfg => { }, typeof(MappingConfig));
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IVillaRepository, VillaRepository>();
 
             var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
 
@@ -84,9 +86,13 @@ namespace MagicVilla_VillaAPI
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
+
+                    ValidateIssuer = true,
+					ValidIssuer = builder.Configuration.GetValue<string>("ApiSettings:Issuer"),
+
+					ValidateAudience = true,
+					ValidAudience = builder.Configuration.GetValue<string>("ApiSettings:Audience") 
+				};
             });
 
             builder.Services.AddApiVersioning(options =>
@@ -96,7 +102,10 @@ namespace MagicVilla_VillaAPI
                 options.ReportApiVersions = true;
             }).AddMvc();
 
+
             var app = builder.Build();
+
+            app.UseMiddleware<CustomExceptionMiddleware>();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
