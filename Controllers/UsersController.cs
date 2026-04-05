@@ -1,7 +1,6 @@
 ﻿using MagicVilla_VillaAPI.Dto;
 using MagicVilla_VillaAPI.Models;
 using MagicVilla_VillaAPI.Repository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 

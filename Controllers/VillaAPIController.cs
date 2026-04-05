@@ -1,14 +1,10 @@
 ﻿using Asp.Versioning;
 using AutoMapper;
-using Azure;
-using MagicVilla_VillaAPI.Data;
 using MagicVilla_VillaAPI.Dto;
 using MagicVilla_VillaAPI.Models;
 using MagicVilla_VillaAPI.Repository;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace MagicVilla_VillaAPI.Controllers
@@ -105,6 +101,7 @@ namespace MagicVilla_VillaAPI.Controllers
 			return CreatedAtRoute("GetVilla", new { id = model.Id }, _response);
 		}
 
+		[Authorize]
 		[HttpDelete("{id:int}", Name = "DeleteVilla")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -136,7 +133,7 @@ namespace MagicVilla_VillaAPI.Controllers
 			return Ok(_response);
 		}
 
-
+		[Authorize]
 		[HttpPut("{id:int}", Name = "UpdateVilla")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]

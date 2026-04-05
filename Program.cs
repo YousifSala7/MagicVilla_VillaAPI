@@ -1,5 +1,3 @@
-
-using Asp.Versioning;
 using MagicVilla_VillaAPI.Data;
 using MagicVilla_VillaAPI.Mapping;
 using MagicVilla_VillaAPI.Middlewares;
@@ -12,7 +10,7 @@ using System.Text;
 
 namespace MagicVilla_VillaAPI
 {
-    public class Program
+	public class Program
     {
         public static void Main(string[] args)
         {
